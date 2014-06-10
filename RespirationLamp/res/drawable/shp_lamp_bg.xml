@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" >
+
+    <gradient
+        android:angle="45"
+        android:type="radial"
+        android:gradientRadius="200"
+        android:endColor="#22FF00B2"
+        android:centerColor="#99FF00B2"
+        android:startColor="#FFFF00B2" />
+
+    <!-- 填充的颜色 -->
+
+
+    <!-- android:radius 弧形的半径 -->
+
+    <corners android:radius="360dp" />
+
+</shape>
