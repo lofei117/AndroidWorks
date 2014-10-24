@@ -1,17 +1,12 @@
 package info.lofei.android.torch;
 
 import android.app.Activity;
-import android.appwidget.AppWidgetManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import info.lofei.android.torch.Exception.TorchUnavailableException;
 import info.lofei.android.torch.Util.TorchUtil;
 
 public class MainActivity extends Activity {
@@ -34,10 +29,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(TorchUtil.isTorchOn()){
-            mTorchStateBtn.setChecked(true);
-        } else {
-            mTorchStateBtn.setChecked(false);
+        try {
+            if (TorchUtil.isTorchOn()) {
+                mTorchStateBtn.setChecked(true);
+            } else {
+                mTorchStateBtn.setChecked(false);
+            }
+        } catch (TorchUnavailableException e){
+            Toast.makeText(this, R.string.torch_unavailable, Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 

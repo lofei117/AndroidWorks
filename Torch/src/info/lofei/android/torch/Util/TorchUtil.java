@@ -2,6 +2,8 @@ package info.lofei.android.torch.Util;
 
 import android.hardware.Camera;
 
+import info.lofei.android.torch.Exception.TorchUnavailableException;
+
 /**
  * @author lofei@duotin.com
  * @version 1.0.0
@@ -13,33 +15,45 @@ public class TorchUtil {
 
     private static Camera sCamera;
 
-    public static void turnOn(){
-        if(sCamera == null) {
-            sCamera = Camera.open();
+    public static void turnOn() throws TorchUnavailableException {
+        try {
+            if (sCamera == null) {
+                sCamera = Camera.open();
+            }
+            Camera.Parameters p = sCamera.getParameters();
+            p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+            sCamera.setParameters(p);
+            sCamera.startPreview();
+        } catch (RuntimeException e) {
+            throw new TorchUnavailableException(e);
         }
-        Camera.Parameters p = sCamera.getParameters();
-        p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-        sCamera.setParameters(p);
-        sCamera.startPreview();
     }
 
-    public static void turnOff(){
-        if(sCamera == null) {
-            sCamera = Camera.open();
+    public static void turnOff() throws TorchUnavailableException {
+        try {
+            if (sCamera == null) {
+                sCamera = Camera.open();
+            }
+            Camera.Parameters p = sCamera.getParameters();
+            p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+            sCamera.setParameters(p);
+            sCamera.stopPreview();
+            sCamera.release();
+            sCamera = null;
+        } catch (RuntimeException e) {
+            throw new TorchUnavailableException(e);
         }
-        Camera.Parameters p = sCamera.getParameters();
-        p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-        sCamera.setParameters(p);
-        sCamera.stopPreview();
-        sCamera.release();
-        sCamera = null;
     }
 
-    public static boolean isTorchOn(){
-        if(sCamera == null){
-            sCamera = Camera.open();
+    public static boolean isTorchOn() throws TorchUnavailableException {
+        try {
+            if (sCamera == null) {
+                sCamera = Camera.open();
+            }
+            Camera.Parameters p = sCamera.getParameters();
+            return Camera.Parameters.FLASH_MODE_TORCH.equals(p.getFlashMode());
+        } catch (RuntimeException e){
+            throw new TorchUnavailableException(e);
         }
-        Camera.Parameters p = sCamera.getParameters();
-        return Camera.Parameters.FLASH_MODE_TORCH.equals(p.getFlashMode());
     }
 }
