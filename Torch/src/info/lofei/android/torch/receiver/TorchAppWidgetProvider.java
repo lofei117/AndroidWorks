@@ -54,20 +54,7 @@ public class TorchAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
-//        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.main_appwidget);
-//
-//        final ComponentName activityName = new ComponentName(context, TorchToggleService.class);
-//        Intent action = new Intent(TorchToggleService.TOGGLE_ACTION);
-//        action.setComponent(activityName);
-//        PendingIntent pendingIntent = PendingIntent.getService(context, 0, action, 0);
-//        remoteViews.setOnClickPendingIntent(R.id.btn_torch_state, pendingIntent);
-//
-//        Intent intent = new Intent(context, TorchAppWidgetService.class);
-//        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-//        remoteViews.setRemoteAdapter(R.id.btn_torch_state, intent);
-//
-//        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
-          updateWidgets(context);
+        updateWidgets(context);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
