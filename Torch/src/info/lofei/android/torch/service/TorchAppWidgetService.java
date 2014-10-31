@@ -40,7 +40,7 @@ public class TorchAppWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-
+            Log.d(TorchAppWidgetService.class.getSimpleName(), " onDataSetChanged =" );
         }
 
         @Override
@@ -55,10 +55,14 @@ public class TorchAppWidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int position) {
-            Log.d("test", "1234");
+
             mRemoteViews = new RemoteViews(mContext.getPackageName(), R.layout.main_appwidget);
 
-            if(TorchUtil.isTorchOn()) {
+            boolean flag = TorchUtil.isTorchOn();
+
+            Log.d(TorchAppWidgetService.class.getSimpleName(), " is TorchOn flag =" + flag);
+
+            if(flag) {
                 mRemoteViews.setImageViewResource(R.id.btn_torch_state, R.drawable.ic_lightbulb);
             } else {
                 mRemoteViews.setImageViewResource(R.id.btn_torch_state, R.drawable.ic_lightbulb_on);

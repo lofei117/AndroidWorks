@@ -1,13 +1,17 @@
 package info.lofei.android.torch.service;
 
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.IBinder;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import info.lofei.android.torch.Exception.TorchUnavailableException;
 import info.lofei.android.torch.R;
 import info.lofei.android.torch.Util.TorchUtil;
+import info.lofei.android.torch.receiver.TorchAppWidgetProvider;
 
 public class TorchToggleService extends Service {
 
@@ -37,8 +41,10 @@ public class TorchToggleService extends Service {
             } else {
                 TorchUtil.turnOn();
             }
+            TorchAppWidgetProvider.updateWidgets(this);
         } catch (TorchUnavailableException e) {
             Toast.makeText(this, R.string.torch_unavailable, Toast.LENGTH_SHORT).show();
         }
     }
+
 }
