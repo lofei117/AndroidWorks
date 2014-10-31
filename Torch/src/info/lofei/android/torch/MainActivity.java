@@ -27,14 +27,18 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        if(!TorchUtil.isTorchOn()){
+            TorchUtil.turnOff();
+        }
+        super.onPause();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         try {
-            if (TorchUtil.isTorchOn()) {
-                mTorchStateBtn.setChecked(true);
-            } else {
-                mTorchStateBtn.setChecked(false);
-            }
+            mTorchStateBtn.setChecked(!TorchUtil.isTorchOn());
         } catch (TorchUnavailableException e){
             Toast.makeText(this, R.string.torch_unavailable, Toast.LENGTH_SHORT).show();
             finish();
