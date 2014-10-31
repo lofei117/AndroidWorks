@@ -1,6 +1,11 @@
 package info.lofei.android.torch.Util;
 
+import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Build;
+
+import java.io.IOException;
+import java.util.List;
 
 import info.lofei.android.torch.Exception.TorchUnavailableException;
 
@@ -21,10 +26,18 @@ public class TorchUtil {
                 sCamera = Camera.open();
             }
             Camera.Parameters p = sCamera.getParameters();
+
             p.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+
             sCamera.setParameters(p);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+                sCamera.setPreviewTexture(new SurfaceTexture(0));
+            }
             sCamera.startPreview();
         } catch (RuntimeException e) {
+            throw new TorchUnavailableException(e);
+        }catch (IOException e) {
             throw new TorchUnavailableException(e);
         }
     }
