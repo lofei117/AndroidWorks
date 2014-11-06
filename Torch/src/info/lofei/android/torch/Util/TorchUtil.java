@@ -20,6 +20,8 @@ public class TorchUtil {
 
     private static Camera sCamera;
 
+    private static boolean sIsTorchOn = false;
+
     public static void turnOn() throws TorchUnavailableException {
         try {
             if (sCamera == null) {
@@ -35,6 +37,7 @@ public class TorchUtil {
                 sCamera.setPreviewTexture(new SurfaceTexture(0));
             }
             sCamera.startPreview();
+            sIsTorchOn = true;
         } catch (RuntimeException e) {
             throw new TorchUnavailableException(e);
         }catch (IOException e) {
@@ -53,20 +56,13 @@ public class TorchUtil {
             sCamera.stopPreview();
             sCamera.release();
             sCamera = null;
+            sIsTorchOn = false;
         } catch (RuntimeException e) {
             throw new TorchUnavailableException(e);
         }
     }
 
     public static boolean isTorchOn() throws TorchUnavailableException {
-        try {
-            if (sCamera == null) {
-                sCamera = Camera.open();
-            }
-            Camera.Parameters p = sCamera.getParameters();
-            return Camera.Parameters.FLASH_MODE_TORCH.equals(p.getFlashMode());
-        } catch (RuntimeException e){
-            throw new TorchUnavailableException(e);
-        }
+       return sIsTorchOn;
     }
 }
